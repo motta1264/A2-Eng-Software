@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Crie seu Grupo{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="bg-white p-5 rounded shadow" style="max-width: 600px; width: 100%;">
+    <h2 class="text-center text-success mb-4">Crie seu Grupo de Estudos</h2>
+    <form method="POST">
+      <input type="text" name="nome" placeholder="Nome do grupo" class="form-control mb-3" required>
+      <textarea name="descricao" placeholder="Descrição" class="form-control mb-3" required></textarea>
+      <input type="text" name="materia" placeholder="Matéria" class="form-control mb-3" required>
+      <select name="estilo" class="form-select mb-3" required>
+        <option value="" disabled selected>Selecione o estilo de encontro</option>
+        <option value="virtual">Virtual</option>
+        <option value="presencial">Presencial</option>
+      </select>
+      <button type="submit" class="btn btn-success w-100">Criar Grupo</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

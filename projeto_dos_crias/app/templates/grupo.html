@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}{{ grupo.nome }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center">
+  <div class="text-center p-5 bg-white rounded shadow" style="max-width: 700px; width: 100%;">
+    <h2 class="text-success mb-3">{{ grupo.nome }}</h2>
+    <p>{{ grupo.descricao }}</p>
+  </div>
+</div>
+{% endblock %}

@@ -23,3 +23,9 @@ class UserUseCase:
         if hashed_input == user.password_hashed:
             return user
         return None
+    
+    def find_by_id(self, user_id):
+        return self.repository.find_by_id(user_id)
+
+    def update_user(self, user):
+        return self.repository.update_user(user)
