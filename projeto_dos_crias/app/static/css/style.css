@@ -1,0 +1,61 @@
+body.bg-light-green {
+  background: linear-gradient(to right, #d4f4dd, #b0eacb);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1, h2 {
+  font-weight: bold;
+}
+
+.btn {
+  font-weight: 500;
+}
+/* Aplica fundo verde claro a toda a página */
+body.bg-soft-green {
+  background-color: #d4f4dd;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+}
+
+/* Barra lateral à esquerda */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background-color: #b9e8ce;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  padding-top: 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Links da sidebar */
+.sidebar a {
+  display: block;
+  padding: 1rem 1.5rem;
+  color: #155724;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #a0d8be;
+}
+
+/* Área de conteúdo principal */
+.content-area {
+  margin-left: 240px;
+  padding: 2rem;
+  width: calc(100% - 240px);
+  min-height: 100vh;
+  background: linear-gradient(to right, #73dfab, #78c09a);
+}
+
+/* Botão de perfil no canto superior direito */
+.profile-button {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+}
