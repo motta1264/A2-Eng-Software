@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Grupos que Participo{% endblock %}
+
+{% block content %}
+<h2 class="text-success text-center mb-4">Grupos que Participo</h2>
+
+{% if grupos %}
+  <div class="row">
+    {% for grupo in grupos %}
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ grupo.nome }}</h5>
+            <p class="card-text">{{ grupo.descricao }}</p>
+            <a href="/grupo/{{ grupo.id }}" class="btn btn-success">Ver Grupo</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-center text-muted">Você ainda não participa de nenhum grupo como membro.</p>
+{% endif %}
+{% endblock %}

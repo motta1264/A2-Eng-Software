@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Buscar Grupos{% endblock %}
+
+{% block content %}
+<h2 class="text-success mb-4 text-center">Resultados da Busca</h2>
+
+<form class="row mb-4" method="GET" action="/buscar-grupos">
+  <div class="col-md-6">
+    <input type="text" name="q" class="form-control" placeholder="Buscar por nome, descrição ou matéria" value="{{ termo }}" required>
+  </div>
+  <div class="col-md-4">
+    <select name="estilo" class="form-select">
+      <option value="">Todos os estilos</option>
+      <option value="virtual" {% if estilo == 'virtual' %}selected{% endif %}>Virtual</option>
+      <option value="presencial" {% if estilo == 'presencial' %}selected{% endif %}>Presencial</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <button type="submit" class="btn btn-success w-100">Filtrar</button>
+  </div>
+</form>
+
+{% if grupos %}
+  <div class="row">
+    {% for grupo in grupos %}
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ grupo.nome }}</h5>
+            <p class="card-text">{{ grupo.descricao }}</p>
+            <span class="badge bg-secondary mb-2">{{ grupo.estilo|capitalize }}</span>
+            <a href="/grupo/{{ grupo.id }}" class="btn btn-success me-2">Ver Grupo</a>
+
+            {% if not participando[grupo.id] %}
+            <form method="POST" action="/grupo/{{ grupo.id }}/entrar" style="display: inline;">
+                <button type="submit" class="btn btn-outline-primary">Entrar</button>
+            </form>
+            {% endif %}
+
+
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-center text-muted">Nenhum grupo encontrado com os critérios fornecidos.</p>
+{% endif %}
+{% endblock %}

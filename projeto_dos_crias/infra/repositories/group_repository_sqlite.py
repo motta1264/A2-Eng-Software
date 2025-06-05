@@ -61,3 +61,58 @@ class GroupRepository:
         """, (user_id,))
         rows = cursor.fetchall()
         return [Group(*row) for row in rows]
+
+    def search(self, termo, estilo=None):
+        cursor = self.conn.cursor()
+        query = """
+            SELECT id, nome, descricao, materia, estilo, administrador_id
+            FROM groups
+            WHERE (nome LIKE ? OR descricao LIKE ? OR materia LIKE ?)
+        """
+        params = [f"%{termo}%", f"%{termo}%", f"%{termo}%"]
+
+        if estilo:
+            query += " AND estilo = ?"
+            params.append(estilo)
+
+        cursor.execute(query, params)
+        rows = cursor.fetchall()
+        return [Group(*row) for row in rows]
+
+    def delete(self, grupo_id):
+        cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM group_participants WHERE grupo_id = ?", (grupo_id,))
+        cursor.execute("DELETE FROM groups WHERE id = ?", (grupo_id,))
+        self.conn.commit()
+
+    def find_participating_but_not_admin(self, user_id):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT g.id, g.nome, g.descricao, g.materia, g.estilo, g.administrador_id
+            FROM groups g
+            JOIN group_participants gp ON gp.grupo_id = g.id
+            WHERE gp.usuario_id = ? AND g.administrador_id != ?
+        """, (user_id, user_id))
+        rows = cursor.fetchall()
+        return [Group(*row) for row in rows]
+
+    def add_participant(self, grupo_id, user_id):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT 1 FROM group_participants WHERE grupo_id = ? AND usuario_id = ?
+        """, (grupo_id, user_id))
+        if cursor.fetchone():
+            return False  # já participa
+        cursor.execute("""
+            INSERT INTO group_participants (grupo_id, usuario_id) VALUES (?, ?)
+        """, (grupo_id, user_id))
+        self.conn.commit()
+        return True
+
+    def user_participates(self, grupo_id, user_id):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT 1 FROM group_participants
+            WHERE grupo_id = ? AND usuario_id = ?
+        """, (grupo_id, user_id))
+        return cursor.fetchone() is not None

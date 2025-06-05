@@ -52,5 +52,9 @@ def create_user_routes(user_use_case):
 
         return render_template("perfil.html", user=user)
 
+    @user_bp.route("/logout")
+    def logout():
+        session.pop("user_id", None)  # Remove o ID da sessão se existir
+        return redirect("/login")     # Redireciona para a tela de login
 
     return user_bp
