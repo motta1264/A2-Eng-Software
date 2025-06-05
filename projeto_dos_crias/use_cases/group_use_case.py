@@ -17,3 +17,6 @@ class GroupUseCase:
 
     def get_group(self, group_id):
         return self.repository.find_by_id(group_id)
+
+    def list_by_user(self, user_id):
+        return self.repository.find_by_user(user_id)

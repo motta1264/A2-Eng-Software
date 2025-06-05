@@ -26,4 +26,14 @@ def create_group_routes(group_use_case):
             return "Grupo não encontrado", 404
         return render_template("grupo.html", grupo=grupo)
 
+    @bp.route("/meus-grupos")
+    def meus_grupos():
+        if "user_id" not in session:
+            return redirect("/login")
+        
+        user_id = session["user_id"]
+        grupos = group_use_case.list_by_user(user_id)
+        return render_template("meus_grupos.html", grupos=grupos)
+
+
     return bp

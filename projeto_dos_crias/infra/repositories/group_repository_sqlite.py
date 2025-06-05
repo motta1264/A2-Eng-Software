@@ -50,3 +50,14 @@ class GroupRepository:
         """, (group_id,))
         row = cursor.fetchone()
         return Group(*row) if row else None
+
+    def find_by_user(self, user_id):
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT g.id, g.nome, g.descricao, g.materia, g.estilo, g.administrador_id
+            FROM groups g
+            JOIN group_participants gp ON gp.grupo_id = g.id
+            WHERE gp.usuario_id = ?
+        """, (user_id,))
+        rows = cursor.fetchall()
+        return [Group(*row) for row in rows]
