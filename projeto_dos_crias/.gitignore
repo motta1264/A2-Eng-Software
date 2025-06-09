@@ -1,0 +1,11 @@
+# Ignora cache do Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignora banco de dados local
+*.db
+
+# Ignora ambiente virtual, se existir
+venv/
+.env/
