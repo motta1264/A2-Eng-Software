@@ -37,7 +37,7 @@ def test_create_group():
     repo = FakeGroupRepository()
     use_case = GroupUseCase(repo)
 
-    group = use_case.create("Grupo A", "descricao", "matematica", "virtual", admin_id=1)
+    group = use_case.create_group("Grupo A", "descricao", "matematica", "virtual", admin_id=1)
 
     assert group.nome == "Grupo A"
     assert group.estilo == "virtual"
@@ -47,7 +47,7 @@ def test_participation_logic():
     repo = FakeGroupRepository()
     use_case = GroupUseCase(repo)
 
-    group = use_case.create("Grupo B", "desc", "fisica", "presencial", 1)
+    group = use_case.create_group("Grupo B", "desc", "fisica", "presencial", 1)
     use_case.enter_group(group.id, 2)
 
     assert use_case.user_is_participant(group.id, 2)
