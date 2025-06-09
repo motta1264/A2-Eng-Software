@@ -13,27 +13,30 @@ class FakeTaskRepository:
         self.tasks.append(task)
         return task
 
-    def find_by_group_id(self, group_id):
-        return [t for t in self.tasks if t.grupo_id == group_id]
+    def get_all(self):
+        return self.tasks
 
 def test_create_task():
     repo = FakeTaskRepository()
     use_case = TaskUseCase(repo)
 
-    task = use_case.create("Fazer exercício", grupo_id=1)
+    task = use_case.create_task("Fazer exercício", "Descrição do exercício")
 
     assert isinstance(task, Task)
-    assert task.titulo == "Fazer exercício"
-    assert task.grupo_id == 1
+    assert task.title == "Fazer exercício"
+    assert task.description == "Descrição do exercício"
+    assert not task.is_done
+    assert task.id == 1
 
-def test_tasks_by_group():
+def test_list_tasks():
     repo = FakeTaskRepository()
     use_case = TaskUseCase(repo)
 
-    use_case.create("Tarefa 1", grupo_id=1)
-    use_case.create("Tarefa 2", grupo_id=2)
-    use_case.create("Tarefa 3", grupo_id=1)
+    use_case.create_task("Tarefa 1", "Descrição 1")
+    use_case.create_task("Tarefa 2", "Descrição 2")
 
-    group_1_tasks = use_case.get_by_group(1)
-    assert len(group_1_tasks) == 2
-    assert all(t.grupo_id == 1 for t in group_1_tasks)
+    tasks = use_case.list_tasks()
+
+    assert len(tasks) == 2
+    assert tasks[0].title == "Tarefa 1"
+    assert tasks[1].title == "Tarefa 2"
