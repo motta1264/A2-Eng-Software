@@ -2,8 +2,9 @@
 
 from flask import Blueprint, request, jsonify
 
+
 def create_task_routes(task_use_case):
-    task_bp = Blueprint('task', __name__)
+    task_bp = Blueprint("task", __name__)
 
     @task_bp.route("/tasks", methods=["GET"])
     def get_tasks():

@@ -2,6 +2,7 @@ import pytest
 from use_cases.task_use_case import TaskUseCase
 from domain.task import Task
 
+
 class FakeTaskRepository:
     def __init__(self):
         self.tasks = []
@@ -16,6 +17,7 @@ class FakeTaskRepository:
     def get_all(self):
         return self.tasks
 
+
 def test_create_task():
     repo = FakeTaskRepository()
     use_case = TaskUseCase(repo)
@@ -27,6 +29,7 @@ def test_create_task():
     assert task.description == "Descrição do exercício"
     assert not task.is_done
     assert task.id == 1
+
 
 def test_list_tasks():
     repo = FakeTaskRepository()

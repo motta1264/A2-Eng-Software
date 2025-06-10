@@ -13,5 +13,5 @@ class User:
             "name": self.name,
             "email": self.email,
             "faculdade": self.faculdade,
-            "cursos": self.cursos
+            "cursos": self.cursos,
         }

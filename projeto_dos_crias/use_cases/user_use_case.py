@@ -3,6 +3,7 @@
 import hashlib
 from domain.user import User
 
+
 class UserUseCase:
     def __init__(self, repository):
         self.repository = repository
@@ -23,7 +24,7 @@ class UserUseCase:
         if hashed_input == user.password_hashed:
             return user
         return None
-    
+
     def find_by_id(self, user_id):
         return self.repository.find_by_id(user_id)
 

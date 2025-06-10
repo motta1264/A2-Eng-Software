@@ -2,8 +2,9 @@
 
 from flask import Blueprint, request, render_template, redirect, session, url_for
 
+
 def create_user_routes(user_use_case):
-    user_bp = Blueprint('user', __name__)
+    user_bp = Blueprint("user", __name__)
 
     @user_bp.route("/criar-perfil", methods=["GET", "POST"])
     def register():
@@ -26,7 +27,6 @@ def create_user_routes(user_use_case):
                 return redirect("/inicio")
             return render_template("login.html", error="Credenciais inválidas")
         return render_template("login.html")
-    
 
     @user_bp.route("/inicio")
     def inicio():
@@ -55,6 +55,6 @@ def create_user_routes(user_use_case):
     @user_bp.route("/logout")
     def logout():
         session.pop("user_id", None)  # Remove o ID da sessão se existir
-        return redirect("/login")     # Redireciona para a tela de login
+        return redirect("/login")  # Redireciona para a tela de login
 
     return user_bp

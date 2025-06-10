@@ -2,6 +2,7 @@ import pytest
 from use_cases.user_use_case import UserUseCase
 from domain.user import User
 
+
 class FakeUserRepository:
     def __init__(self):
         self.users = []
@@ -18,6 +19,7 @@ class FakeUserRepository:
             if u.email == email:
                 return u
         return None
+
 
 def test_register_user():
     repo = FakeUserRepository()

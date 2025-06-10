@@ -2,6 +2,7 @@ import pytest
 from use_cases.group_use_case import GroupUseCase
 from domain.group import Group
 
+
 class FakeGroupRepository:
     def __init__(self):
         self.groups = []
@@ -25,7 +26,12 @@ class FakeGroupRepository:
         return [g for g in self.groups if g.administrador_id == admin_id]
 
     def find_participating_but_not_admin(self, user_id):
-        return [g for g in self.groups if user_id in self.participants.get(g.id, set()) and g.administrador_id != user_id]
+        return [
+            g
+            for g in self.groups
+            if user_id in self.participants.get(g.id, set())
+            and g.administrador_id != user_id
+        ]
 
     def add_participant(self, grupo_id, user_id):
         self.participants.setdefault(grupo_id, set()).add(user_id)
@@ -33,15 +39,19 @@ class FakeGroupRepository:
     def user_participates(self, grupo_id, user_id):
         return user_id in self.participants.get(grupo_id, set())
 
+
 def test_create_group():
     repo = FakeGroupRepository()
     use_case = GroupUseCase(repo)
 
-    group = use_case.create_group("Grupo A", "descricao", "matematica", "virtual", admin_id=1)
+    group = use_case.create_group(
+        "Grupo A", "descricao", "matematica", "virtual", admin_id=1
+    )
 
     assert group.nome == "Grupo A"
     assert group.estilo == "virtual"
     assert group.administrador_id == 1
+
 
 def test_participation_logic():
     repo = FakeGroupRepository()
