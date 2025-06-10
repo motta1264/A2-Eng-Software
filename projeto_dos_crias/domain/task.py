@@ -1,5 +1,6 @@
 # domain/task.py
 
+
 class Task:
     def __init__(self, id, title, description, is_done=False):
         self.id = id
@@ -15,5 +16,5 @@ class Task:
             "id": self.id,
             "title": self.title,
             "description": self.description,
-            "is_done": self.is_done
+            "is_done": self.is_done,
         }

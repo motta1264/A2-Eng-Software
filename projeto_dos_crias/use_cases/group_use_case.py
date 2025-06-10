@@ -1,5 +1,6 @@
 from domain.group import Group
 
+
 class GroupUseCase:
     def __init__(self, repository):
         self.repository = repository
@@ -11,7 +12,7 @@ class GroupUseCase:
             descricao=descricao,
             materia=materia,
             estilo=estilo,
-            administrador_id=admin_id
+            administrador_id=admin_id,
         )
         return self.repository.add(group)
 
@@ -37,4 +38,4 @@ class GroupUseCase:
         return self.repository.add_participant(grupo_id, user_id)
 
     def user_is_participant(self, grupo_id, user_id):
-      return self.repository.user_participates(grupo_id, user_id)
+        return self.repository.user_participates(grupo_id, user_id)

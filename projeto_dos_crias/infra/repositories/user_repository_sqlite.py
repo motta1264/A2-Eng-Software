@@ -3,6 +3,7 @@
 import sqlite3
 from domain.user import User
 
+
 class UserRepository:
     def __init__(self, connection):
         self.conn = connection
@@ -12,14 +13,16 @@ class UserRepository:
         cursor = self.conn.cursor()
 
         # Criação da tabela se não existir
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 email TEXT NOT NULL UNIQUE,
                 password_hashed TEXT NOT NULL
             )
-        """)
+        """
+        )
 
         # Verifica se as colunas novas existem, se não, adiciona
         cursor.execute("PRAGMA table_info(users);")
@@ -33,36 +36,47 @@ class UserRepository:
 
         self.conn.commit()
 
-
     def add(self, user):
         cursor = self.conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT INTO users (name, email, password_hashed)
             VALUES (?, ?, ?)
-        """, (user.name, user.email, user.password_hashed))
+        """,
+            (user.name, user.email, user.password_hashed),
+        )
         self.conn.commit()
         user.id = cursor.lastrowid
         return user
 
     def find_by_email(self, email):
         cursor = self.conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT id, name, email, password_hashed, faculdade, cursos FROM users WHERE email = ?
-        """, (email,))
+        """,
+            (email,),
+        )
         row = cursor.fetchone()
         return User(*row) if row else None
-    
+
     def update_user(self, user):
         cursor = self.conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             UPDATE users SET name = ?, email = ?, faculdade = ?, cursos = ? WHERE id = ?
-        """, (user.name, user.email, user.faculdade, user.cursos, user.id))
+        """,
+            (user.name, user.email, user.faculdade, user.cursos, user.id),
+        )
         self.conn.commit()
 
     def find_by_id(self, user_id):
         cursor = self.conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             SELECT id, name, email, password_hashed, faculdade, cursos FROM users WHERE id = ?
-        """, (user_id,))
+        """,
+            (user_id,),
+        )
         row = cursor.fetchone()
         return User(*row) if row else None

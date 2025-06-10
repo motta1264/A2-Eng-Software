@@ -10,6 +10,7 @@ from app.routes.group_routes import create_group_routes
 from infra.repositories.group_repository_sqlite import GroupRepository
 from use_cases.group_use_case import GroupUseCase
 
+
 def create_app():
     app = Flask(__name__, static_folder="static", template_folder="templates")
     app.secret_key = "segredo123"  # Necessário para sessão
@@ -27,11 +28,10 @@ def create_app():
     group_repo = GroupRepository(conn)
     group_use_case = GroupUseCase(group_repo)
     app.register_blueprint(create_group_routes(group_use_case))
-    
+
     @app.route("/")
     def home():
         return render_template("index.html")
-
 
     return app
 

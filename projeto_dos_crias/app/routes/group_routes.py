@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, session
 
+
 def create_group_routes(group_use_case):
     bp = Blueprint("group", __name__)
 
@@ -14,7 +15,9 @@ def create_group_routes(group_use_case):
             materia = request.form["materia"]
             estilo = request.form["estilo"]
             admin_id = session["user_id"]
-            grupo = group_use_case.create_group(nome, descricao, materia, estilo, admin_id)
+            grupo = group_use_case.create_group(
+                nome, descricao, materia, estilo, admin_id
+            )
             return redirect(f"/grupo/{grupo.id}")
 
         return render_template("criar_grupo.html")
@@ -30,7 +33,7 @@ def create_group_routes(group_use_case):
     def meus_grupos():
         if "user_id" not in session:
             return redirect("/login")
-        
+
         user_id = session["user_id"]
         grupos = group_use_case.list_by_user(user_id)
         return render_template("meus_grupos.html", grupos=grupos)
@@ -49,14 +52,16 @@ def create_group_routes(group_use_case):
         participando = {}
         user_id = session["user_id"]
         for grupo in grupos:
-            participando[grupo.id] = group_use_case.user_is_participant(grupo.id, user_id)
+            participando[grupo.id] = group_use_case.user_is_participant(
+                grupo.id, user_id
+            )
 
         return render_template(
             "buscar_grupos.html",
             grupos=grupos,
             termo=termo,
             estilo=estilo,
-            participando=participando
+            participando=participando,
         )
 
     @bp.route("/grupo/<int:grupo_id>/deletar", methods=["POST"])
@@ -84,7 +89,7 @@ def create_group_routes(group_use_case):
     def entrar_grupo(grupo_id):
         if "user_id" not in session:
             return redirect("/login")
-        
+
         user_id = session["user_id"]
         group_use_case.enter_group(grupo_id, user_id)
         return redirect(f"/grupo/{grupo_id}")
